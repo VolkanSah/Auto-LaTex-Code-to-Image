@@ -1,29 +1,32 @@
 import os
 import re
+import hashlib
 import subprocess
 from pathlib import Path
 
 def extract_bracketed_latex(markdown_text):
     """
     Search for bracketed LaTeX blocks in the Markdown text.
-    Example: [ \text{DumpIndex} = \frac{Noise - Effort}{Context + Details} ]
-
-    Returns a list of strings, each being the content inside [ ... ].
+    Returns list of tuples: (original_match, latex_content)
     """
-    # Regex Explanation:
-    # - \[\s* matches '[' followed by optional whitespace
-    # - (.*?) is a lazy capturing group for anything (including newlines, thanks to re.DOTALL)
-    # - \s*\] matches optional whitespace plus the closing bracket ']'
-    pattern = re.compile(r'\[\s*(.*?)\s*\]', re.DOTALL)
+    pattern = re.compile(r'(\[ *([^\]]+) *\])', re.DOTALL)
     blocks = pattern.findall(markdown_text)
     print(f"DEBUG: Found {len(blocks)} bracketed block(s).")
     return blocks
 
+def sanitize_filename(latex_code):
+    """
+    Create a clean, unique filename from LaTeX code.
+    Uses a hash to ensure unique filenames and avoid problematic characters.
+    """
+    # Remove whitespace and create a hash
+    clean_latex = latex_code.replace(' ', '_').replace('\\', '_')
+    hash_part = hashlib.md5(latex_code.encode()).hexdigest()[:8]
+    return f"latex_{clean_latex[:20]}_{hash_part}.png"
+
 def latex_to_image(latex_code, output_path):
     """
-    Takes a LaTeX snippet (latex_code) and compiles it to a PNG (output_path) using
-    LaTeX + dvipng.
-
+    Compiles LaTeX snippet to PNG using LaTeX + dvipng.
     Returns True on success, False on error.
     """
     # Ensure the "assets" directory exists
@@ -65,55 +68,48 @@ def latex_to_image(latex_code, output_path):
     print(f"DEBUG: Created image '{output_path}' from LaTeX snippet.")
     return True
 
-def replace_brackets_with_images(markdown_text, bracketed_blocks, image_paths):
+def replace_and_preserve_latex(markdown_text, latex_blocks, image_paths):
     """
-    Replaces each bracketed LaTeX block (e.g., [ \frac{a}{b} ]) with
-    the corresponding ![LaTeX Image](path) in the Markdown text.
-
-    NOTE: The replacement pattern must match EXACTLY the bracket style
-    in your Markdown. For example, [ \frac{a}{b} ] with spaces or
-    [\frac{a}{b}] with no spaces.
+    Replace bracketed LaTeX while preserving the original text.
     """
     updated_text = markdown_text
-    for block_content, image_path in zip(bracketed_blocks, image_paths):
-        # We assume the original text is: [ block_content ]
-        # with exactly one space after '[' and one before ']'
-        original = f"[ {block_content} ]"
-        # If your usage is different, adjust the string or use regex replace
-        updated_text = updated_text.replace(original, f"![LaTeX Image]({image_path})")
+    for (original_match, block_content), image_path in zip(latex_blocks, image_paths):
+        # Insert image link before the original LaTeX block
+        replacement = f"![LaTeX Image]({image_path})\n\n{original_match}"
+        updated_text = updated_text.replace(original_match, replacement)
 
     return updated_text
 
 def process_markdown_file(markdown_file):
     """
-    Processes a single Markdown file:
-      - Extract bracketed LaTeX blocks
-      - For each block, compile to PNG
-      - Replace the bracketed text with an image link
-      - Write the updated Markdown back
+    Process a single Markdown file to convert LaTeX to images.
     """
     with open(markdown_file, "r", encoding="utf-8") as f:
         markdown_text = f.read()
 
     # 1) Extract bracketed blocks
-    bracketed_blocks = extract_bracketed_latex(markdown_text)
-    if not bracketed_blocks:
+    latex_blocks = extract_bracketed_latex(markdown_text)
+    if not latex_blocks:
         return  # No bracketed LaTeX found, no changes needed
 
     # 2) Convert each block to an image
     image_paths = []
-    for i, block in enumerate(bracketed_blocks):
-        # e.g. "assets/latex_0.png", "assets/latex_1.png"
-        image_path = f"assets/latex_{i}.png"
-        success = latex_to_image(block, image_path)
+    for block in latex_blocks:
+        latex_code = block[1]  # The actual LaTeX content
+        # Generate a descriptive filename
+        image_filename = sanitize_filename(latex_code)
+        image_path = os.path.join("assets", image_filename)
+        
+        success = latex_to_image(latex_code, image_path)
         if not success:
-            print(f"Failed to convert block: {block}")
+            print(f"Failed to convert block: {latex_code}")
             continue
         image_paths.append(image_path)
 
-    # 3) Replace bracketed LaTeX with ![LaTeX Image](...)
+    # 3) Replace and preserve LaTeX blocks
     if image_paths:
-        new_markdown_text = replace_brackets_with_images(markdown_text, bracketed_blocks, image_paths)
+        new_markdown_text = replace_and_preserve_latex(markdown_text, latex_blocks, image_paths)
+        
         # 4) Overwrite the original file with the updated content
         with open(markdown_file, "w", encoding="utf-8") as f:
             f.write(new_markdown_text)
