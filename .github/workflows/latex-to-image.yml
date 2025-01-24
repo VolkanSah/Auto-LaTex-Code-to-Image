@@ -1,4 +1,4 @@
-name: LaTeX to Image by Volkan Sah
+name: LaTeX to Image
 
 on: [push, pull_request]
 
@@ -33,4 +33,4 @@ jobs:
         git commit -m 'Convert LaTeX to images'
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
