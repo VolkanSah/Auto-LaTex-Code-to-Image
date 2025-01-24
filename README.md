@@ -1,5 +1,7 @@
 # LaTeX to Image Converter
 
+i am to stupid to let it run, maybe later
+
 Dieses Repository enthält ein Tool, das LaTeX-Code in Markdown-Dateien erkennt, in Bilder umwandelt und diese Bilder an den entsprechenden Stellen einfügt.
 
 ## Funktionsweise
