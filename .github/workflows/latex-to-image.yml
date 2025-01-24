@@ -1,5 +1,3 @@
-
-
 name: LaTeX zu Bild
 permissions:
   contents: write
@@ -32,6 +30,8 @@ jobs:
         run: python scripts/latex_to_image.py
       
       - name: Änderungen committen
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
