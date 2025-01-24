@@ -66,7 +66,9 @@ ADI = \frac{w_N \cdot \text{Noise} - (w_E \cdot \text{Effort} + w_B \cdot \text{
     ```yaml
     name: LaTeX to Image
 
-    on: [push, pull_request]
+    on: ![LaTeX Image](assets/latex_"latex",_"temp.tex"_e9b03771.png)
+
+[push, pull_request]
 
     jobs:
       build:
@@ -125,7 +127,9 @@ ADI = \frac{w_N \cdot \text{Noise} - (w_E \cdot \text{Effort} + w_B \cdot \text{
         with open("temp.tex", "w") as f:
             f.write(latex_document)
 
-        subprocess.run(["latex", "temp.tex"])
+        subprocess.run(![LaTeX Image](assets/latex_LaTeX_Image_df1a4d33.png)
+
+["latex", "temp.tex"])
         subprocess.run(["dvipng", "temp.dvi", "-o", output_path])
 
         os.remove("temp.tex")
