@@ -1,6 +1,3 @@
-# Code by Github Copliot & Volkan Sah 2023-2025
-# MIT Free for all. DONT SELL FREE CODE AND RESPECT CREDITS, OR YOU WILL PAY IN FUTURE FOR TOOLS LIKE THIS!
-# OPENSOURCE 4 LIFE! 
 import os
 import re
 import subprocess
@@ -24,16 +21,23 @@ def latex_to_image(latex_code, output_path):
         f.write(latex_document)
 
     # Compile LaTeX to DVI
-    subprocess.run(["latex", "temp.tex"])
+    result = subprocess.run(["latex", "temp.tex"], capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"LaTeX compilation failed:\n{result.stderr}")
+        return False
 
     # Convert DVI to PNG
-    subprocess.run(["dvipng", "temp.dvi", "-o", output_path])
+    result = subprocess.run(["dvipng", "temp.dvi", "-o", output_path], capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"dvipng conversion failed:\n{result.stderr}")
+        return False
 
     # Clean up temporary files
     os.remove("temp.tex")
     os.remove("temp.dvi")
     os.remove("temp.log")
     os.remove("temp.aux")
+    return True
 
 def replace_latex_with_images(markdown_text, latex_blocks, image_paths):
     for latex, image_path in zip(latex_blocks, image_paths):
@@ -49,8 +53,11 @@ def process_markdown_file(markdown_file):
 
     for i, latex in enumerate(latex_blocks):
         image_path = f"assets/latex_{i}.png"
-        latex_to_image(latex, image_path)
-        image_paths.append(image_path)
+        if latex_to_image(latex, image_path):
+            image_paths.append(image_path)
+        else:
+            print(f"Failed to convert LaTeX to image for block: {latex}")
+            return
 
     new_markdown_text = replace_latex_with_images(markdown_text, latex_blocks, image_paths)
 
