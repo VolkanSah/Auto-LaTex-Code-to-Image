@@ -49,7 +49,7 @@ $$
 $$
 ```
 ```
-[ \text{DumpIndex} = \frac{\text{Noise} - \text{Effort}}{\text{Context} + \text{Details}} ]
+![LaTeX Image](assets/latex_2.png)
 ```
 ## Verwendung
 
