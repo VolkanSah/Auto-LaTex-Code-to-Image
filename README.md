@@ -48,7 +48,11 @@ $$
 }
 $$
 ```
+```
+ADI = \frac{w_N \cdot \text{Noise} - (w_E \cdot \text{Effort} + w_B \cdot \text{BonusFactors})}{w_C \cdot \text{Context} + w_D \cdot \text{Details} + w_P \cdot \text{PenaltyFactors}}
+```
 ## Verwendung
+
 
 1. **GitHub Action Workflow**: Der Workflow wird bei jedem Push oder Pull Request ausgeführt, installiert die notwendigen Abhängigkeiten, führt das Python-Skript aus und pusht die Änderungen zurück ins Repository.
 2. **Python-Skript**: Das Skript durchsucht alle `.md`-Dateien im gesamten Repository, extrahiert LaTeX-Code, wandelt ihn in Bilder um und ersetzt den LaTeX-Code durch die Bilder.
