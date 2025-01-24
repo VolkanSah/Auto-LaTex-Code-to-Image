@@ -49,7 +49,8 @@ $$
 $$
 ```
 ```
-[ \text{DumpIndex} = \frac{\text{Noise} - \text{Effort}}{\text{Context} + \text{Details}} ]```
+[ \text{DumpIndex} = \frac{\text{Noise} - \text{Effort}}{\text{Context} + \text{Details}} ]
+```
 ## Verwendung
 
 
