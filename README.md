@@ -66,7 +66,31 @@ ADI = \frac{w_N \cdot \text{Noise} - (w_E \cdot \text{Effort} + w_B \cdot \text{
     ```yaml
     name: LaTeX to Image
 
-    on: ![LaTeX Image](assets/latex_"latex",_"temp.tex"_e9b03771.png)
+    on: !![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+[LaTeX Image](assets/latex_"latex",_"temp.tex"_e9b03771.png)
+
+![LaTeX Equation](assets/push__pull_request_1e04abfd.png)
+
+```latex
+push, pull_request
+```
 
 [push, pull_request]
 
@@ -127,10 +151,40 @@ ADI = \frac{w_N \cdot \text{Noise} - (w_E \cdot \text{Effort} + w_B \cdot \text{
         with open("temp.tex", "w") as f:
             f.write(latex_document)
 
-        subprocess.run(![LaTeX Image](assets/latex_LaTeX_Image_df1a4d33.png)
+        subprocess.run(!![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+[LaTeX Image](assets/latex_LaTeX_Image_df1a4d33.png)
+
+![LaTeX Equation](assets/_latex____temp_tex__e9b03771.png)
+
+```latex
+"latex", "temp.tex"
+```
 
 ["latex", "temp.tex"])
-        subprocess.run(["dvipng", "temp.dvi", "-o", output_path])
+        subprocess.run(![LaTeX Equation](assets/_dvipng____temp_dvi____-o___ou_3ad37baf.png)
+
+```latex
+"dvipng", "temp.dvi", "-o", output_path
+```
+
+["dvipng", "temp.dvi", "-o", output_path])
 
         os.remove("temp.tex")
         os.remove("temp.dvi")
@@ -139,7 +193,25 @@ ADI = \frac{w_N \cdot \text{Noise} - (w_E \cdot \text{Effort} + w_B \cdot \text{
 
     def replace_latex_with_images(markdown_text, latex_blocks, image_paths):
         for latex, image_path in zip(latex_blocks, image_paths):
-            markdown_text = markdown_text.replace(f"$${latex}$$", f"![LaTeX Image]({image_path})")
+            markdown_text = markdown_text.replace(f"$${latex}$$", f"!![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+![LaTeX Equation](assets/LaTeX_Image_df1a4d33.png)
+
+```latex
+LaTeX Image
+```
+
+[LaTeX Image]({image_path})")
         return markdown_text
 
     def process_markdown_file(markdown_file):
