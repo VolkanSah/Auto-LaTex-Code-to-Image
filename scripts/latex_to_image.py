@@ -1,7 +1,8 @@
-# Code by Github Copilot & Me
+# Code by Github Copliot & Volkan Sah 2023-2025
+# MIT Free for all. DONT SELL FREE CODE AND RESPECT CREDITS, OR YOU WILL PAY IN FUTURE FOR TOOLS LIKE THIS!
+# OPENSOURCE 4 LIFE! 
 import os
 import re
-import markdown2
 import subprocess
 from pathlib import Path
 
@@ -39,8 +40,7 @@ def replace_latex_with_images(markdown_text, latex_blocks, image_paths):
         markdown_text = markdown_text.replace(f"$${latex}$$", f"![LaTeX Image]({image_path})")
     return markdown_text
 
-def main():
-    markdown_file = "LIES-MICH.md"
+def process_markdown_file(markdown_file):
     with open(markdown_file, "r", encoding="utf-8") as f:
         markdown_text = f.read()
 
@@ -56,6 +56,10 @@ def main():
 
     with open(markdown_file, "w", encoding="utf-8") as f:
         f.write(new_markdown_text)
+
+def main():
+    for markdown_file in Path(".").rglob("*.md"):
+        process_markdown_file(markdown_file)
 
 if __name__ == "__main__":
     main()
