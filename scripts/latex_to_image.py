@@ -4,12 +4,10 @@ import subprocess
 from pathlib import Path
 
 def extract_latex_blocks(markdown_text):
-    # Regex to match LaTeX blocks
     latex_blocks = re.findall(r'\$\$(.*?)\$\$', markdown_text, re.DOTALL)
     return latex_blocks
 
 def latex_to_image(latex_code, output_path):
-    # Create a LaTeX file
     latex_document = f"""
     \\documentclass{{standalone}}
     \\usepackage{{amsmath}}
@@ -20,19 +18,16 @@ def latex_to_image(latex_code, output_path):
     with open("temp.tex", "w") as f:
         f.write(latex_document)
 
-    # Compile LaTeX to DVI
     result = subprocess.run(["latex", "temp.tex"], capture_output=True, text=True)
     if result.returncode != 0:
         print(f"LaTeX compilation failed:\n{result.stderr}")
         return False
 
-    # Convert DVI to PNG
     result = subprocess.run(["dvipng", "temp.dvi", "-o", output_path], capture_output=True, text=True)
     if result.returncode != 0:
         print(f"dvipng conversion failed:\n{result.stderr}")
         return False
 
-    # Clean up temporary files
     os.remove("temp.tex")
     os.remove("temp.dvi")
     os.remove("temp.log")
