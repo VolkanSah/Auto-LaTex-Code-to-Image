@@ -1,4 +1,6 @@
-name: LaTeX to Image
+
+
+name: LaTeX zu Bild
 permissions:
   contents: write
 on:
@@ -6,44 +8,33 @@ on:
     branches: [ "main" ]
   pull_request:
 jobs:
-  build:
+  konvertierung:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
-
-      - name: Set up Python
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-
-      - name: Install dependencies
+      
+      - name: Abhängigkeiten installieren
         run: |
-          python -m pip install --upgrade pip
           sudo apt-get update
           sudo apt-get install -y \
             texlive-latex-base \
-            texlive-fonts-recommended \
-            texlive-fonts-extra \
             texlive-latex-extra \
+            texlive-fonts-recommended \
             imagemagick \
             poppler-utils
-
-      - name: Run LaTeX to Image script
+      
+      - name: LaTeX zu Bild konvertieren
+        run: python scripts/latex_to_image.py
+      
+      - name: Änderungen committen
         run: |
-          mkdir -p scripts
-          wget https://raw.githubusercontent.com/VolkanSah/Auto-LaTex-Code-to-Image/refs/heads/main/scripts/latex_to_image.py -O scripts/latex_to_image.py
-          python scripts/latex_to_image.py
-
-      - name: Commit and push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.Latex_to_Image }}
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git add .
-          git diff --staged --quiet || git commit -m "Convert bracket-based LaTeX to images"
-          git push origin HEAD:${{ github.ref_name }}
+          git commit -m "LaTeX-Formeln zu Bildern konvertiert" || exit 0
+          git push
