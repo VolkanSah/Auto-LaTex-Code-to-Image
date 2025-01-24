@@ -1,13 +1,12 @@
 name: LaTeX to Image
 
-#  Pushen im Job erlauben <<<
+# This permission is required so the workflow can push changes back to the repo
 permissions:
   contents: write
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]   # Adjust if your main branch has a different name
   pull_request:
 
 jobs:
@@ -15,20 +14,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Repo auschecken + Credentials persistent halten
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
+          # Provide the GitHub token and persist credentials for later commits
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
-      # 2) Python einrichten
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
-      # 3) Dependencies installieren
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -36,24 +36,29 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra dvipng
 
-      # 4) LaTeX -> Image Script ausführen
+      # Step 4: Debug - list all .md files (optional, but helpful for verifying your Markdown files)
+      - name: Debug - List .md files
+        run: |
+          echo "Listing Markdown files found:"
+          find . -name "*.md" -print
+
+      # Step 5: Run the bracket-based LaTeX-to-image script
       - name: Run LaTeX to Image script
         run: python scripts/latex_to_image.py
 
-      # 5) Pullen, um evtl. Konflikte zu vermeiden (optional, aber empfohlen)
+      # Step 6: Pull the latest changes to avoid merge conflicts
       - name: Pull latest changes
         run: |
-          git pull --rebase origin $GITHUB_REF_NAME
+          git pull --rebase origin $GITHUB_REF_NAME || echo "No pull needed"
 
-      # 6) Änderungen committen & pushen
+      # Step 7: Commit and push changes
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add .
-          # Verhindert Abbruch, wenn keine Änderungen vorliegen:
-          git commit -m "Convert LaTeX to images" || echo "No changes to commit"
+          # Avoid errors if no changes are found
+          git commit -m "Convert bracket-based LaTeX to images" || echo "No changes to commit"
           git push origin HEAD:$GITHUB_REF_NAME
-        env:
-          # Hier das GITHUB_TOKEN mitgeben
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
