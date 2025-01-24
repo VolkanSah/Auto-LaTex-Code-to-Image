@@ -1,4 +1,5 @@
 import os
+os.makedirs("assets", exist_ok=True)
 import re
 import subprocess
 from pathlib import Path
