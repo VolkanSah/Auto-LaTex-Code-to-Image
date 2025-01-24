@@ -1,8 +1,9 @@
 import os
-os.makedirs("assets", exist_ok=True)
 import re
 import subprocess
 from pathlib import Path
+
+os.makedirs("assets", exist_ok=True)
 
 def extract_latex_blocks(markdown_text):
     latex_blocks = re.findall(r'\$\$(.*?)\$\$', markdown_text, re.DOTALL)
