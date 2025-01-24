@@ -31,7 +31,7 @@ $$
 $$
 
 #### Beispiel 4: Anti-Dump-Index (ADI)
-
+```
 $$
 \text{ADI} 
 = \frac{
@@ -47,7 +47,7 @@ $$
   + w_P \cdot \text{PenaltyFactors}
 }
 $$
-
+```
 ## Verwendung
 
 1. **GitHub Action Workflow**: Der Workflow wird bei jedem Push oder Pull Request ausgeführt, installiert die notwendigen Abhängigkeiten, führt das Python-Skript aus und pusht die Änderungen zurück ins Repository.
