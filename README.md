@@ -1,7 +1,3 @@
-Below is a **concise** sample README that briefly explains what your script/Action does, which regex patterns it looks for, and how to trigger it. You can adapt the text as needed.
-
----
-
 # LaTeX-to-Image Conversion
 
 This repository contains a small helper script and GitHub Actions workflow that scans **all Markdown files** for LaTeX formulas. It supports these three patterns by default:
