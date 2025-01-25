@@ -9,7 +9,7 @@
 
 $$
 \text{Lerneffizienz3} = \frac{\text{Wissensgewinn} \cdot \text{Lerngeschwindigkeit}}{\text{Ablenkungen} + 1}
-
+\]
 $$
 
 [
