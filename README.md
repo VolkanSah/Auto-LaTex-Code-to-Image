@@ -24,7 +24,7 @@ Whenever a formula is found, the script generates a **high-resolution PNG** and 
 
 Write LaTeX in Markdown between `$$ ... $$`, for instance:
 
-```markdown
+```
 $$
 \text{Komplexitätsindex} 
 = \frac{\text{Systemkomplexität} \cdot \text{Variablen}}
@@ -36,21 +36,20 @@ After the workflow runs, your `.md` file is updated to reference a newly created
 
 ### Before
 
-```markdown
 $$
 \frac{a + b}{c}
 $$
-```
+
 
 ### After
 
-```markdown
+```
 ![LaTeX Formel](assets/latex___frac_a___b__c_.png)
 
 ```latex
 \frac{a + b}{c}
 ```
-```
+
 
 ## Note on Patterns
 
