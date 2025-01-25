@@ -32,6 +32,14 @@ $$
 $$
 ```
 
+
+$$
+\text{Komplexitätsindex} 
+= \frac{\text{Systemkomplexität} \cdot \text{Variablen}}
+       {\text{Verständlichkeit} + \text{Dokumentation}}
+$$
+
+
 After the workflow runs, your `.md` file is updated to reference a newly created PNG in `assets/`, along with a code block containing the original snippet.
 
 ### Before
