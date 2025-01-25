@@ -11,6 +11,7 @@ $$
 \text{Lerneffizienz3} = \frac{\text{Wissensgewinn} \cdot \text{Lerngeschwindigkeit}}{\text{Ablenkungen} + 1}
 \]
 $$
+
 [
 \text{Kommunikationsqualität3} = \frac{w_K \cdot \text{Klarheit} - (w_N \cdot \text{Noise} + w_A \cdot \text{Ambiguität})}{w_Z \cdot \text{Zeitaufwand} + w_K \cdot \text{Kontext}}
 ]
