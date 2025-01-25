@@ -1,0 +1,38 @@
+name: LaTeX zu Bild
+permissions:
+  contents: write
+on:
+  workflow_dispatch:  # Ermöglicht manuelle Auslösung
+jobs:
+  konvertierung:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Abhängigkeiten installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            imagemagick \
+            poppler-utils
+      
+      - name: LaTeX zu Bild konvertieren
+        run: python scripts/latex_to_image.py
+      
+      - name: Änderungen committen
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "LaTeX-Formeln zu Bildern konvertiert" || exit 0
+          git push
