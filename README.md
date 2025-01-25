@@ -3,7 +3,12 @@
 This repository contains a small helper script and GitHub Actions workflow that scans **all Markdown files** for LaTeX formulas. It supports these three patterns by default:
 
 ```
-r'\[ *(.*?) *\]'    # [ formula ]
+r'\[ *(.*?) *\]'    # ![LaTeX Formel](assets/latex_formula.png)
+
+```latex
+formula
+```
+
 r'\\\[(.*?)\\\]'    # \[ formula \]
 r'\$\$(.*?)\$\$'    # $$ formula $$
 ```
