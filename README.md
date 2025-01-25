@@ -39,6 +39,10 @@ $$
        {\text{Verständlichkeit} + \text{Dokumentation}}
 $$
 
+$$
+ADI = \frac{w_N \cdot \text{Noise} - (w_E \cdot \text{Effort} + w_B \cdot \text{BonusFactors})}{w_C \cdot \text{Context} + w_D \cdot \text{Details} + w_P \cdot \text{PenaltyFactors}}
+§§
+
 
 After the workflow runs, your `.md` file is updated to reference a newly created PNG in `assets/`, along with a code block containing the original snippet.
 
