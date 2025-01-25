@@ -15,16 +15,13 @@ you must start the workflow manually or use latex_to_image.yml_auto for automati
 second. if Workflow ontime configurt you can use in the repo where this script runs 
  simple latex code between 
 
- §§
-
- than 
- 
  ``` 
+§§
 \text{Komplexitätsindex} = \frac{\text{Systemkomplexität} \cdot \text{Variablen}}{\text{Verständlichkeit} + \text{Dokumentation}}
+\
+$$
 
- ```
-do not to forget to close  with \ and $$
-
+ ``` 
 
 # example output
 $$
